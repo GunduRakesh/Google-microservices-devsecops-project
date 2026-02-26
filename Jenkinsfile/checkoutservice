@@ -131,7 +131,7 @@ pipeline {
                     }
                 }
             }
-        }
+        } 
         stage("Trivy File Scan") {
             steps {
                 dir('src/checkoutservice') { // Run the scan inside the target directory
@@ -214,7 +214,7 @@ pipeline {
                     }
                 }
             }
-            // Missing closing brace '}' for the stages block was here
+           } for the stages block was here
         } // Closing brace for "Trivy Scan Image" stage
     } // Closing brace for 'stages' block
 
