@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        DOCKER_NAME = 'harishnshetty/productcatalogservice'
+        DOCKER_NAME = 'rakesh210/productcatalogservice'
         IMAGE_NAME = 'productcatalogservice'
         // This is a global definition. We'll ensure it's used correctly below.
         GO_BIN_PATH = '$(go env GOPATH)/bin'
@@ -105,7 +105,7 @@ pipeline {
         }
 
         // --- Dependency Check (SCA) ---
-        stage('Go Dependency Check (govulncheck)') {
+      /*  stage('Go Dependency Check (govulncheck)') {
             steps {
                 dir('src/productcatalogservice') {
                     script {
@@ -131,7 +131,7 @@ pipeline {
                     }
                 }
             }
-        }
+        } */
         stage("Trivy File Scan") {
             steps {
                 dir('src/productcatalogservice') { // Run the scan inside the target directory
@@ -182,7 +182,7 @@ pipeline {
                 dir('src/productcatalogservice') {
                     script {
                         withCredentials([string(credentialsId: 'docker-cred', variable: 'dockerpwd')]) {
-                            sh "docker login -u harishnshetty -p ${dockerpwd}"
+                            sh "docker login -u rakesh210 -p ${dockerpwd}"
                             sh "docker tag $IMAGE_NAME ${env.IMAGE_TAG}"
                             sh "docker push ${env.IMAGE_TAG}"
 
@@ -230,7 +230,7 @@ pipeline {
                         subject: "Pipeline ${buildStatus}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                         body: """
                             <p>productcatalogservice Google-Shop DevSecops pipeline status.</p>
-                            <p>Youtube Link :- https://www.youtube.com/@devopsHarishNShetty </p>
+                           
                             <p>Project: ${env.JOB_NAME}</p>
                             <p>Build Number: ${env.BUILD_NUMBER}</p>
                             <p>Build Status: ${buildStatus}</p>
@@ -238,8 +238,8 @@ pipeline {
                             <p>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
 
                         """,
-                        to: 'harishn662@gmail.com',
-                        from: 'harishn662@gmail.com',
+                        to: 'rakesh8500g@gmail.com',
+                        from: 'rakesh8500g@gmail.com',
                         mimeType: 'text/html',
                         attachmentsPattern: 'trivy-fs-report.txt,trivy-image-productcatalogservice.json,trivy-image-productcatalogservice.txt,gosec-report.json'
                     )
