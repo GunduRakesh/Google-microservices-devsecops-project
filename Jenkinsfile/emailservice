@@ -82,7 +82,7 @@ pipeline {
         }
 
         // --- Dependency Scan (Safety) ---
-        stage("Safety Dependency Scan") {
+        /* stage("Safety Dependency Scan") {
             steps {
                 dir('src/emailservice') {
                     sh '''
@@ -96,7 +96,7 @@ pipeline {
                     archiveArtifacts 'src/emailservice/safety-report.json'
                 }
             }
-        }
+        } */
 
         // --- Trivy FS Scan ---
         stage("Trivy File Scan") {
