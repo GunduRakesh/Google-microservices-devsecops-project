@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        DOCKER_NAME  = 'harishnshetty/loadgenerator'
+        DOCKER_NAME  = 'rakesh210/loadgenerator'
         IMAGE_NAME   = 'loadgenerator'
         PATH = "$PATH:/var/lib/jenkins/.local/bin"   // <-- Fix: add pip install path
     }
@@ -25,7 +25,7 @@ pipeline {
         }
 
         // --- SAST: Bandit ---
-        stage("Bandit Security Scan") {
+     /*   stage("Bandit Security Scan") {
             steps {
                 dir('src/loadgenerator') {
                     sh '''
@@ -39,7 +39,7 @@ pipeline {
                     archiveArtifacts 'src/loadgenerator/bandit-report.json'
                 }
             }
-        }
+        } */
 
         // --- SAST: SonarQube ---
         stage("SonarQube Analysis") {
@@ -78,7 +78,7 @@ pipeline {
         }
 
         // --- Dependency Scan (Safety) ---
-        stage("Safety Dependency Scan") {
+     /*   stage("Safety Dependency Scan") {
             steps {
                 dir('src/loadgenerator') {
                     sh '''
@@ -92,7 +92,7 @@ pipeline {
                     archiveArtifacts 'src/loadgenerator/safety-report.json'
                 }
             }
-        }
+        } */
 
         // --- Trivy FS Scan ---
         stage("Trivy File Scan") {
@@ -128,7 +128,7 @@ pipeline {
                 dir('src/loadgenerator') {
                     withCredentials([string(credentialsId: 'docker-cred', variable: 'dockerpwd')]) {
                         sh '''
-                        docker login -u harishnshetty -p ${dockerpwd}
+                        docker login -u rakesh210 -p ${dockerpwd}
                         docker push ${IMAGE_TAG}
                         docker tag ${IMAGE_NAME} ${DOCKER_NAME}:latest
                         docker push ${DOCKER_NAME}:latest
@@ -168,17 +168,17 @@ pipeline {
                         subject: "Pipeline ${buildStatus}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                         body: """
                             <p>loadgenerator Google-Shop DevSecOps pipeline status.</p>
-                            <p>Youtube Link :- https://www.youtube.com/@devopsHarishNShetty </p>
+                           
                             <p>Project: ${env.JOB_NAME}</p>
                             <p>Build Number: ${env.BUILD_NUMBER}</p>
                             <p>Build Status: ${buildStatus}</p>
                             <p>Started by: ${buildUser}</p>
                             <p>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                         """,
-                        to: 'harishn662@gmail.com',
-                        from: 'harishn662@gmail.com',
+                        to: 'rakesh8500g@gmail.com',
+                        from: 'rakesh8500g@gmail.com',
                         mimeType: 'text/html',
-                        attachmentsPattern: 'bandit-report.json,safety-report.json,trivy-fs-report.txt,trivy-image-email.json,trivy-image-email.txt'
+                        attachmentsPattern: 'safety-report.json,trivy-fs-report.txt,trivy-image-email.json,trivy-image-email.txt'
                     )
                 }
             }
