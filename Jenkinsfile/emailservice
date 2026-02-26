@@ -29,6 +29,10 @@ pipeline {
             steps {
                 dir('src/emailservice') {
                     sh '''
+                    python3 -m venv venv
+                    ./venv/bin/python -m pip install --upgrade pip
+                    ./venv/bin/python -m pip install bandit
+                    ./venv/bin/bandit --version
                     python3 -m pip install --user --upgrade bandit
                     bandit -r . -f json -o bandit-report.json || true
                     '''
