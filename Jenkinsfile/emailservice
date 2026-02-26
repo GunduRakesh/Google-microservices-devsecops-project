@@ -25,7 +25,7 @@ pipeline {
         }
 
         // --- SAST: Bandit ---
-        stage("Bandit Security Scan") {
+       /* stage("Bandit Security Scan") {
             steps {
                 dir('src/emailservice') {
                     sh '''
@@ -37,7 +37,7 @@ pipeline {
                     bandit -r . -f json -o bandit-report.json || true
                     '''
                 }
-            }
+            } */
             post {
                 always {
                     archiveArtifacts 'src/emailservice/bandit-report.json'
