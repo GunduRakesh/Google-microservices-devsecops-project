@@ -37,13 +37,13 @@ pipeline {
                     bandit -r . -f json -o bandit-report.json || true
                     '''
                 }
-            } */
+            } 
             post {
                 always {
                     archiveArtifacts 'src/emailservice/bandit-report.json'
                 }
             }
-        }
+        } */
 
         // --- SAST: SonarQube ---
         stage("SonarQube Analysis") {
