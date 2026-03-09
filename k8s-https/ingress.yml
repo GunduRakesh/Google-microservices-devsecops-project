@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1
+/*apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: myingress
@@ -37,4 +37,27 @@ spec:
               service:
                 name: frontend # or your default frontend
                 port:
+                  number: 80  */
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/load-balancer-name: shop-ns-alb
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
                   number: 80
+                  
